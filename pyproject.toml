@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "cheezen"
+version = "1.0.0"
+description = ""
+authors = ["Asapros <asapros@wp.pl>"]
+readme = "README.md"
+packages = [{include = "cheezen"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+httpx = "^0.28.1"
+pydantic = "^2.10.4"
+python-dotenv = "^1.0.1"
+pyyaml = "^6.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "cheezen.main:main"

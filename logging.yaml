@@ -1,0 +1,20 @@
+version: 1
+formatters:
+  default:
+    format: '%(asctime)s [%(levelname)s] %(name)s - %(message)s'
+    datefmt: "%H:%M:%S"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: default
+    stream: ext://sys.stdout
+loggers:
+  root:
+    level: DEBUG
+    handlers: [console]
+  httpcore:
+    level: INFO
+  cheezen:
+    level: INFO
+    propagate: yes
