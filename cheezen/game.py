@@ -113,8 +113,13 @@ class OngoingChallenge(APILoadableModel):
     challenger: Challenger
 
 
+class GameStatus(APILoadableModel):
+    name: str
+
+
 class GameFinish(GameState):
-    winner: PieceColor
+    status: GameStatus
+    winner: PieceColor | None = None
 
 
 class GameStart(GameState):

@@ -56,7 +56,7 @@ class CheezenClient(LichessClient):
     async def handle_external_events(self):
         async for event in self.stream_events():
             if isinstance(event, GameFinish):
-                logger.info("Stopping handling game: {}. Won? {}".format(event.game_id, event.color == event.winner))
+                logger.info("Stopping handling game: {}. Status: {}. Won?: {}".format(event.game_id, event.status.name, event.winner == event.color))
                 self._game_handlers.pop(event.game_id).cancel()
             if isinstance(event, GameStart):
                 logger.info("Handling game: {}. Playing {}".format(event.game_id, event.color.value))
