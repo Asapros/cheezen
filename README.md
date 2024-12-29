@@ -10,6 +10,10 @@ Usage
 Install the project with python *poetry* tool. Set `TOKEN` and `ENGINE` environment variables to lichess bot token and engine executable path respectively. You can also use a `.env` file to store configuration. Use `poetry run start` to start the bot.
 Logging configuration is stored in `logging.yaml`. You can also use the `LOGLEVEL` environment variable to ignore some logs.
 
+Docker
+------
+There's a `Dockerfile` that can be used to run a container of the app. Upon running, you will have to set all of the mentioned environment variables (or bind a .env file) and bind the engine executable. Remember to add `./` before engine filename as the image runs on linux.
+
 Interface
 ---------
 On each turn, the bot will run the engine executable and write one line to its stdin. The line consists of values separated by a single space character:
