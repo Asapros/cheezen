@@ -28,8 +28,8 @@ class CheezenClient(LichessClient):
         engine_input = "{} {} {} {}".format(white_time, black_time, moves_made, moves)
         stdout, stderr = await process.communicate(input=engine_input.encode("ascii"))
         if process.returncode != 0:
-            logger.error("Engine exited with status code {}, captured stdout: {}"
-                         .format(process.returncode, stdout.decode("utf-8").strip()))
+            logger.error("Engine exited with status code {}, captured stderr: {}"
+                         .format(process.returncode, stderr.decode("utf-8").strip()))
             return None
 
         return stdout.decode("utf-8").strip()

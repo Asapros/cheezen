@@ -21,6 +21,5 @@ On each turn, the bot will run the engine executable and write one line to its s
 The engine should return any valid move it the current position and write it to stdout (also in the UCI format), terminated with an endline character.
 
 ### Engine mistakes
-1. Stderr stream is being ignored at all times.
-2. When the engine returns a non-zero exit code, stdout content will be interpreted as an error message rather than the move and will be shown in the logs.
-3. When the move is invalid or not provided at all, the bot will show a log message with a key. The key should be sent in the game's chat by a spectating player along with a correct move: `<key> <move, UCI format>`. The bot will then override the engine's mistake with user input.
+1. When the engine returns a non-zero exit code, stderr content will be available in logs and no stdout will be read.
+2. When the move is invalid or not provided at all, the bot will show a log message with a key. The key should be sent in the game's chat by a spectating player along with a correct move: `<key> <move, UCI format>`. The bot will then override the engine's mistake with user input.
