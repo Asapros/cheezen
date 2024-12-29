@@ -28,15 +28,15 @@ class CheezenClient(LichessClient):
         engine_input = "{} {} {} {}".format(white_time, black_time, moves_made, moves)
         stdout, stderr = await process.communicate(input=engine_input.encode("ascii"))
         if process.returncode != 0:
-            logger.warning("Exited with status code {}, captured stdout: {}"
-                           .format(process.returncode, stdout.decode("utf-8").strip()))
+            logger.error("Engine exited with status code {}, captured stdout: {}"
+                         .format(process.returncode, stdout.decode("utf-8").strip()))
             return None
 
         return stdout.decode("utf-8").strip()
 
     async def _handle_invalid_move(self, game: OngoingGame):
         key = secrets.token_hex(3)
-        logger.warning("({}) Invalid move. Waiting for human intervention. Key: {}".format(game.game_id, key))
+        logger.error("({}) Invalid move. Waiting for human intervention. Key: {}".format(game.game_id, key))
         await self.send_chat_message(game.game_id, "Engine calculated an invalid move. See the logs for chat key.")
         while True:
             message = (await game.receive_chat()).text
@@ -45,12 +45,12 @@ class CheezenClient(LichessClient):
                 continue
 
             move = message.lstrip(key).strip()
-            logger.info("({}) Submitting a human move: {}".format(game.game_id, move))
+            logger.debug("({}) Submitting a human move: {}".format(game.game_id, move))
             success = await self.make_move(game.game_id, move)
             if success:
                 break
             key = secrets.token_hex(3)
-            logger.warning("({}) Invalid human move. New key: {}".format(game.game_id, key))
+            logger.error("({}) Invalid human move. New key: {}".format(game.game_id, key))
             await self.send_chat_message(game.game_id, "That's not even a valid move bro. See logs for a new key.")
 
     async def handle_external_events(self):
@@ -71,9 +71,9 @@ class CheezenClient(LichessClient):
                 if state.on_turn is not color:
                     logger.debug("({}) Own move. Skipping".format(game_id))
                     continue
-                logger.info("({}) On turn. Running the engine...".format(game_id))
+                logger.debug("({}) On turn. Running the engine...".format(game_id))
                 move = await self.run_engine(state.moves, state.btime, state.wtime)
-                logger.info("({}) Making move: {}".format(game_id, move))
+                logger.debug("({}) Making move: {}".format(game_id, move))
                 if move is None or not await self.make_move(game_id, move):
                     await self._handle_invalid_move(game)
 
@@ -91,9 +91,9 @@ class CheezenClient(LichessClient):
         try:
             await self.setup()
         except RuntimeError as error:
-            logger.error(error)
+            logger.critical(error)
             return
         try:
             await asyncio.gather(*self._game_handlers.values(), asyncio.create_task(self.handle_external_events()))
         except asyncio.CancelledError:
-            logger.info("Handling cancelled. Shutting down")
+            logger.critical("Handling cancelled. Shutting down")

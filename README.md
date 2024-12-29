@@ -8,7 +8,7 @@ The functionality is limited and the package is unlikely to be further maintaine
 Usage
 -----
 Install the project with python *poetry* tool. Set `TOKEN` and `ENGINE` environment variables to lichess bot token and engine executable path respectively. You can also use a `.env` file to store configuration. Use `poetry run start` to start the bot.
-Logging configuration is stored in `logging.yaml`.
+Logging configuration is stored in `logging.yaml`. You can also use the `LOGLEVEL` environment variable to ignore some logs.
 
 Interface
 ---------

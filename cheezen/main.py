@@ -10,9 +10,10 @@ load_dotenv()
 
 
 def main():
-    setup_logger("logging.yaml")
     token = environ.get("TOKEN")
     engine = environ.get("ENGINE")
+    log_level = environ.get("LOGLEVEL")
+    setup_logger("logging.yaml", log_level)
     asyncio.run(CheezenClient(token, engine).loop())
 
 

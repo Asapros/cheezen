@@ -16,5 +16,5 @@ loggers:
   httpcore:
     level: INFO
   cheezen:
-    level: INFO
+    level: ${LOGLEVEL}
     propagate: yes
